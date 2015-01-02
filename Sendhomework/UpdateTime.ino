@@ -13,14 +13,14 @@
   /****** Set Date Time ***********************************/
   void setDateTime()
   {
-    /*******  Config to time *****************************/
+    /*******  Config to time ******************************/
     byte set_second =      0;    // Set Second 0-59
-    byte set_minute =      26;   // Set Minute 0-59
-    byte set_hour =        22;    // Set Hour   0-23
-    byte set_weekDay =     4;    // Set Day of Week  1-7
-    byte set_monthDay =    26;   // Set Day of Month 1-31
-    byte set_month =       11;   // Set Month  1-12
-    byte set_year  =       14;   // Set Year   0-99
+    byte set_minute =      21;   // Set Minute 0-59
+    byte set_hour   =      12;    // Set Hour   0-23
+    byte set_weekDay =     5;    // Set Day of Week  1-7
+    byte set_monthDay =    18;   // Set Day of Month 1-31
+    byte set_month =       12;   // Set Month  1-12
+    byte set_year  =       14;   // Set Year   0-99      
     
     /*******************************************************
     * BIT7 | BIT6 | BIT5 | BIT4 | BIT3 | BIT2 | BIT1 | BIT0
