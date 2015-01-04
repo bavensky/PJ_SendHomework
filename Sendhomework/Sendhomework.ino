@@ -14,6 +14,7 @@
   /******************************* Include Library ******************************/
   #include <LiquidCrystal.h>
   #include <Wire.h>
+  #include <stdio.h>
   #include <Keypad.h>
   #include <Password.h>
   #include <EEPROM.h>        // Mega2560 4KB have 0 - 2047 address
@@ -63,16 +64,47 @@
   int _box2hour = 0, _box2minute = 0;
   int _box3hour = 0, _box3minute = 0;
   int _box4hour = 0, _box4minute = 0;
+  
   int box1=0, box2=0, box3=0, box4=0;
+  
   int a_tens_hour = 0, a_unit_hour = 0, a_tens_minute = 0, a_unit_minute = 0;
   int b_tens_hour = 0, b_unit_hour = 0, b_tens_minute = 0, b_unit_minute = 0;
   int c_tens_hour = 0, c_unit_hour = 0, c_tens_minute = 0, c_unit_minute = 0;
   int d_tens_hour = 0, d_unit_hour = 0, d_tens_minute = 0, d_unit_minute = 0;
+  
   int menu = 0;
   int allkeypad = 0, asterisk = 0, hashtag  = 0;
   int time_hour_box1 = 0, time_minute_box1 = 0;
   
   
+  /************************  Save to EEProm  ************************************/
+  byte savehour_a;  byte  saveminute_a;
+  byte savehour_b;  byte  saveminute_b;
+  byte savehour_c;  byte  saveminute_c;
+  byte savehour_d;  byte  saveminute_d; 
+  
+  byte  readhour_a    = EEPROM.read(10);
+  byte  readminute_a  = EEPROM.read(11);
+  
+  byte  readhour_b    = EEPROM.read(12);
+  byte  readminute_b  = EEPROM.read(13);
+  
+  byte  readhour_c    = EEPROM.read(14);
+  byte  readminute_c  = EEPROM.read(15);
+  
+  byte  readhour_d    = EEPROM.read(16);
+  byte  readminute_d  = EEPROM.read(17);
+  
+  
+    
+ /* Example eeprom 
+  int a = 0;
+  int value = 0;
+  int read;
+  EEPROM.write(a, value);
+  read = EEPROM.read(a);
+ */
+ 
   void setup()
   {
     lcd.begin(16,4);  
@@ -86,6 +118,26 @@
     digitalWrite(unlockedled, 0);
     
     //setDateTime();  // when you want to adjust time 
+    
+  Serial.print(readhour_a);
+  Serial.print("\t");
+  Serial.print(readminute_a);
+  Serial.print("\t");
+  
+  Serial.print(readhour_b);
+  Serial.print("\t");
+  Serial.print(readminute_b);
+  Serial.print("\t");
+  
+  Serial.print(readhour_c);
+  Serial.print("\t");
+  Serial.print(readminute_c);
+  Serial.print("\t");
+  
+  Serial.print(readhour_d);
+  Serial.print("\t");
+  Serial.print(readminute_d);
+
     
   }
   
