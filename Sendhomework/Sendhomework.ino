@@ -74,7 +74,11 @@
   
   int menu = 0;
   int allkeypad = 0, asterisk = 0, hashtag  = 0;
+  
   int time_hour_box1 = 0, time_minute_box1 = 0;
+  int time_hour_box2 = 0, time_minute_box2 = 0;
+  int time_hour_box3 = 0, time_minute_box3 = 0;
+  int time_hour_box4 = 0, time_minute_box4 = 0;
   
   
   /************************  Save to EEProm  ************************************/
@@ -83,28 +87,22 @@
   byte savehour_c;  byte  saveminute_c;
   byte savehour_d;  byte  saveminute_d; 
   
+  // Box A
   byte  readhour_a    = EEPROM.read(10);
   byte  readminute_a  = EEPROM.read(11);
   
+  // Box B
   byte  readhour_b    = EEPROM.read(12);
   byte  readminute_b  = EEPROM.read(13);
   
+  // Box C
   byte  readhour_c    = EEPROM.read(14);
   byte  readminute_c  = EEPROM.read(15);
   
+  // Box D
   byte  readhour_d    = EEPROM.read(16);
   byte  readminute_d  = EEPROM.read(17);
   
-  
-    
- /* Example eeprom 
-  int a = 0;
-  int value = 0;
-  int read;
-  EEPROM.write(a, value);
-  read = EEPROM.read(a);
- */
- 
   void setup()
   {
     lcd.begin(16,4);  

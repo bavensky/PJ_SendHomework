@@ -79,15 +79,15 @@ void input_password()
         {         
           setting_timeA();
         }
-        while(box2 == 2)
+        while(box2 == 1)
         {         
           setting_timeB();
         }
-        while(box3 == 3)
+        while(box3 == 1)
         {         
           setting_timeC();
         }
-        while(box4 == 4)
+        while(box4 == 1)
         {         
           setting_timeD();
         }
