@@ -79,8 +79,7 @@
   int time_hour_box2 = 0, time_minute_box2 = 0;
   int time_hour_box3 = 0, time_minute_box3 = 0;
   int time_hour_box4 = 0, time_minute_box4 = 0;
-  
-  
+
   /************************  Save to EEProm  ************************************/
   byte savehour_a;  byte  saveminute_a;
   byte savehour_b;  byte  saveminute_b;
@@ -103,6 +102,25 @@
   byte  readhour_d    = EEPROM.read(16);
   byte  readminute_d  = EEPROM.read(17);
   
+  /***************************  LDR Variable ************************************/
+  #define LDR_BOX_A A8
+  #define LDR_BOX_B A9
+  #define LDR_BOX_C A10
+  #define LDR_BOX_D A11
+  
+  int read_ldr_A = 0;
+  int read_ldr_B = 0;
+  int read_ldr_C = 0;
+  int read_ldr_D = 0;
+  
+  
+  int sum_box_a = 0;
+  int sum_box_b = 0;
+  int sum_box_c = 0;
+  int sum_box_d = 0;
+  
+  /**************************** End Variable ************************************/
+  
   void setup()
   {
     lcd.begin(16,4);  
@@ -111,32 +129,38 @@
     
     pinMode(lockedled, OUTPUT);
     pinMode(unlockedled, OUTPUT);
-    
+        
+    pinMode(LDR_BOX_A, INPUT);
+    pinMode(LDR_BOX_B, INPUT);
+    pinMode(LDR_BOX_C, INPUT);
+    pinMode(LDR_BOX_D, INPUT);
+  
     digitalWrite(lockedled, 1);
     digitalWrite(unlockedled, 0);
     
     //setDateTime();  // when you want to adjust time 
-    
-  Serial.print(readhour_a);
-  Serial.print("\t");
-  Serial.print(readminute_a);
-  Serial.print("\t");
-  
-  Serial.print(readhour_b);
-  Serial.print("\t");
-  Serial.print(readminute_b);
-  Serial.print("\t");
-  
-  Serial.print(readhour_c);
-  Serial.print("\t");
-  Serial.print(readminute_c);
-  Serial.print("\t");
-  
-  Serial.print(readhour_d);
-  Serial.print("\t");
-  Serial.print(readminute_d);
 
+    // print eeprom to serial
     
+      Serial.print(readhour_a);
+      Serial.print("\t");
+      Serial.print(readminute_a);
+      Serial.print("\t");
+      
+      Serial.print(readhour_b);
+      Serial.print("\t");
+      Serial.print(readminute_b);
+      Serial.print("\t");
+      
+      Serial.print(readhour_c);
+      Serial.print("\t");
+      Serial.print(readminute_c);
+      Serial.print("\t");
+      
+      Serial.print(readhour_d);
+      Serial.print("\t");
+      Serial.print(readminute_d);
+   
   }
   
   void loop()
@@ -147,8 +171,12 @@
     lcd.print("Send_homework..!");
     printDateTime();
 
-/// Enter to mode working
+// Enter to mode working
     input_password();
+
+// Check book when student sent home work
+    //bookcount();
+    
   }
    
   void printDateTime()
@@ -165,9 +193,11 @@
     if(_weekDay == 5) lcd.print("Thu");
     if(_weekDay == 6) lcd.print("Fri");
     if(_weekDay == 7) lcd.print("Sat");
-    lcd.print(" : ");  
+    lcd.print(" : ");
+    if(_monthDay < 10) lcd.print("0");  
     lcd.print(_monthDay);
     lcd.print("/");
+    if(_month < 10) lcd.print("0");  
     lcd.print(_month);
     lcd.print("/");
     _year = _year + 2543;
@@ -178,8 +208,10 @@
     lcd.print("Time : ");
     lcd.print(_hour);
     lcd.print(".");
+    if(_minute < 10) lcd.print("0");
     lcd.print(_minute);
     lcd.print(".");
+    if(_second < 10) lcd.print("0");
     lcd.print(_second);
     lcd.print("  ");
   }
