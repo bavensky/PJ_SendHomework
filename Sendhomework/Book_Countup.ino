@@ -1,4 +1,4 @@
-void bookcount()
+/*void bookcount()
 {
   read_ldr_A = analogRead(LDR_BOX_A);
   Serial.print(read_ldr_A);
@@ -9,4 +9,4 @@ void bookcount()
   {
     sum_box_a = sum_box_a + 1;
   }
-}
+}*/

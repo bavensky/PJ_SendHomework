@@ -103,7 +103,7 @@
   byte  readminute_d  = EEPROM.read(17);
   
   /***************************  LDR Variable ************************************/
-  #define LDR_BOX_A A8
+ /* #define LDR_BOX_A A8
   #define LDR_BOX_B A9
   #define LDR_BOX_C A10
   #define LDR_BOX_D A11
@@ -117,7 +117,7 @@
   int sum_box_a = 0;
   int sum_box_b = 0;
   int sum_box_c = 0;
-  int sum_box_d = 0;
+  int sum_box_d = 0;*/
   
   /**************************** End Variable ************************************/
   
@@ -130,10 +130,10 @@
     pinMode(lockedled, OUTPUT);
     pinMode(unlockedled, OUTPUT);
         
-    pinMode(LDR_BOX_A, INPUT);
+    /*pinMode(LDR_BOX_A, INPUT);
     pinMode(LDR_BOX_B, INPUT);
     pinMode(LDR_BOX_C, INPUT);
-    pinMode(LDR_BOX_D, INPUT);
+    pinMode(LDR_BOX_D, INPUT);*/
   
     digitalWrite(lockedled, 1);
     digitalWrite(unlockedled, 0);
@@ -216,21 +216,21 @@
     lcd.print("  ");
   }
   
-  void readkeypad()
-  {
-    char key = keypad.getKey();
-    if(key == '0') allkeypad = 0;
-    if(key == '1') allkeypad = 1;
-    if(key == '2') allkeypad = 2;
-    if(key == '3') allkeypad = 3;
-    if(key == '4') allkeypad = 4;
-    if(key == '5') allkeypad = 5;
-    if(key == '6') allkeypad = 6;
-    if(key == '7') allkeypad = 7;
-    if(key == '8') allkeypad = 8;
-    if(key == '9') allkeypad = 9;
-
-    if(key == '*') asterisk = 1;
-    if(key == '#') hashtag  = 1;
-  }
+//  void readkeypad()
+//  {
+//    char key = keypad.getKey();
+//    if(key == '0') allkeypad = 0;
+//    if(key == '1') allkeypad = 1;
+//    if(key == '2') allkeypad = 2;
+//    if(key == '3') allkeypad = 3;
+//    if(key == '4') allkeypad = 4;
+//    if(key == '5') allkeypad = 5;
+//    if(key == '6') allkeypad = 6;
+//    if(key == '7') allkeypad = 7;
+//    if(key == '8') allkeypad = 8;
+//    if(key == '9') allkeypad = 9;
+//
+//    if(key == '*') asterisk = 1;
+//    if(key == '#') hashtag  = 1;
+//  }
   

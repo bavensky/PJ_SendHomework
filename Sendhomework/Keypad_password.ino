@@ -62,10 +62,10 @@ void input_password()
           lcd.print("  A   B   C   D ");
           
           char key = keypad.getKey();
-          if(key == 'A') {  box1 =0; box1++;  menu=0;  lcd.clear();  };
-          if(key == 'B') {  box2 =0; box2++;  menu=0;  lcd.clear();  };
-          if(key == 'C') {  box3 =0; box3++;  menu=0;  lcd.clear();  };
-          if(key == 'D') {  box4 =0; box4++;  menu=0;  lcd.clear();  };
+          if(key == 'A') {  box1 =0; box1++;  menu=2;  lcd.clear();  };
+          if(key == 'B') {  box2 =0; box2++;  menu=2;  lcd.clear();  };
+          if(key == 'C') {  box3 =0; box3++;  menu=2;  lcd.clear();  };
+          if(key == 'D') {  box4 =0; box4++;  menu=2;  lcd.clear();  };
           if(key == '#')
           {  
             password.reset();     // เริ่มต้นใส่รหัสใหม่ตั้งแต่ตัวแรก
@@ -75,24 +75,10 @@ void input_password()
           }
         }
         
-        while(box1 == 1)
-        {         
-          setting_timeA();
-        }
-        while(box2 == 1)
-        {         
-          setting_timeB();
-        }
-        while(box3 == 1)
-        {         
-          setting_timeC();
-        }
-        while(box4 == 1)
-        {         
-          setting_timeD();
-        }
-        
-      }
-      
+        while(box1 == 1)  {  setting_timeA();  }
+        while(box2 == 1)  {  setting_timeB();  }
+        while(box3 == 1)  {  setting_timeC();  }
+        while(box4 == 1)  {  setting_timeD();  } 
+      }      
     }
 }
