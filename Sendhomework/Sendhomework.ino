@@ -13,6 +13,7 @@
   *******************************************************************************/ 
   /******************************* Include Library ******************************/
   #include <LiquidCrystal.h>
+  #include "LedControl.h"
   #include <Wire.h>
   #include <stdio.h>
   #include <Keypad.h>
@@ -26,7 +27,12 @@
   #define  D6  8
   #define  D7  7
   LiquidCrystal lcd(RS, EN, D4, D5, D6, D7);
+  /********************* Connect max7219 to arduino pin *************************/
+  // arduino pin 4 is connected to the DataIn (1)
+  // arduino pin 3 is connected to the CLK    (13)
+  // arduino pin 2 is connected to LOAD       (12)
   
+  LedControl segment = LedControl(4,  3,  2);
   /*********************** Initialize Real Time Clock****************************/
   #define DS1307_ADDRESS 0x68   // Address IC 0x68
   byte zero = 0x00; 
@@ -80,6 +86,7 @@
   int time_hour_box3 = 0, time_minute_box3 = 0;
   int time_hour_box4 = 0, time_minute_box4 = 0;
 
+  int delaytime = 250;      //  หน่วงเวลาสำหรับการแสดงผล 7 segment
   /************************  Save to EEProm  ************************************/
   byte savehour_a;  byte  saveminute_a;
   byte savehour_b;  byte  saveminute_b;
@@ -103,7 +110,7 @@
   byte  readminute_d  = EEPROM.read(17);
   
   /***************************  LDR Variable ************************************/
- /* #define LDR_BOX_A A8
+  #define LDR_BOX_A A8
   #define LDR_BOX_B A9
   #define LDR_BOX_C A10
   #define LDR_BOX_D A11
@@ -117,7 +124,7 @@
   int sum_box_a = 0;
   int sum_box_b = 0;
   int sum_box_c = 0;
-  int sum_box_d = 0;*/
+  int sum_box_d = 0;
   
   /**************************** End Variable ************************************/
   
@@ -130,18 +137,21 @@
     pinMode(lockedled, OUTPUT);
     pinMode(unlockedled, OUTPUT);
         
-    /*pinMode(LDR_BOX_A, INPUT);
+    pinMode(LDR_BOX_A, INPUT);
     pinMode(LDR_BOX_B, INPUT);
     pinMode(LDR_BOX_C, INPUT);
-    pinMode(LDR_BOX_D, INPUT);*/
+    pinMode(LDR_BOX_D, INPUT);
   
     digitalWrite(lockedled, 1);
     digitalWrite(unlockedled, 0);
     
-    //setDateTime();  // when you want to adjust time 
+    segment.shutdown(0,false);
+    segment.setIntensity(0,  3);     //  ความสว่าง  8 ปานกลาง
+    segment.clearDisplay(0);         // เคลียหน้าจอ 7 segment
 
-    // print eeprom to serial
+    //setDateTime();  // when you want to adjust time 
     
+    // print eeprom to serial
       Serial.print(readhour_a);
       Serial.print("\t");
       Serial.print(readminute_a);
@@ -160,7 +170,6 @@
       Serial.print(readhour_d);
       Serial.print("\t");
       Serial.print(readminute_d);
-   
   }
   
   void loop()
@@ -170,13 +179,14 @@
     lcd.setCursor(0, 1);
     lcd.print("Send_homework..!");
     printDateTime();
-
+    
+//  show 7 segment
+   //showdisplay(0,  7,  5);    //  0  คือไอซีตัวที่ 1   /  7 คือหลักที่ 7  /  5 คือตัวเลขที่จะให้แสดง 0-15  
 // Enter to mode working
     input_password();
 
 // Check book when student sent home work
-    //bookcount();
-    
+    bookcount(); 
   }
    
   void printDateTime()
@@ -214,23 +224,4 @@
     if(_second < 10) lcd.print("0");
     lcd.print(_second);
     lcd.print("  ");
-  }
-  
-//  void readkeypad()
-//  {
-//    char key = keypad.getKey();
-//    if(key == '0') allkeypad = 0;
-//    if(key == '1') allkeypad = 1;
-//    if(key == '2') allkeypad = 2;
-//    if(key == '3') allkeypad = 3;
-//    if(key == '4') allkeypad = 4;
-//    if(key == '5') allkeypad = 5;
-//    if(key == '6') allkeypad = 6;
-//    if(key == '7') allkeypad = 7;
-//    if(key == '8') allkeypad = 8;
-//    if(key == '9') allkeypad = 9;
-//
-//    if(key == '*') asterisk = 1;
-//    if(key == '#') hashtag  = 1;
-//  }
-  
+  }  
