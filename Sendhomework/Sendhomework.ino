@@ -5,11 +5,12 @@
   * Device   : Tiny RTC I2C module                                              *
   *          : LCD 16x4                                                         *
   *          : Keypad 4x4 module                                                *
-  *          : Sensor(LDR)                                                      *
+  *          : Sensor(IRsensor x 4) with opamp                                  *
+  *          : Drive 7-segment (Max7219)                                        *
   * Link     : -                                                                * 
   * Author   : Bavensky :3                                                      *
   * E-Mail   : Aphirak_Sang-ngenchai@hotmail.com                                *
-  * Date[now]: 18/12/2014 [dd/mm/yyyy]                                          *
+  * Date[now]: 29/01/2015 [dd/mm/yyyy]                                          *
   *******************************************************************************/ 
   /******************************* Include Library ******************************/
   #include <LiquidCrystal.h>
@@ -31,7 +32,6 @@
   // arduino pin 4 is connected to the DataIn (1)
   // arduino pin 3 is connected to the CLK    (13)
   // arduino pin 2 is connected to LOAD       (12)
-  
   LedControl segment = LedControl(4,  3,  2);
   /*********************** Initialize Real Time Clock****************************/
   #define DS1307_ADDRESS 0x68   // Address IC 0x68
@@ -39,7 +39,6 @@
   int _weekDay, _second, _minute, _hour;
   int _monthDay, _month, _year; 
   int control, d1, d2; 
-  
   /*********************** Create Keypad and Password ***************************/
   int locked = 1; 
   int passinput = 0;
@@ -64,7 +63,6 @@
   
   // Create the Keypad
   Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
-  
   /******************************** Variable ************************************/
   int _box1hour = 0, _box1minute = 0;
   int _box2hour = 0, _box2minute = 0;
@@ -79,7 +77,11 @@
   int d_tens_hour = 0, d_unit_hour = 0, d_tens_minute = 0, d_unit_minute = 0;
   
   int menu = 0;
-  int allkeypad = 0, asterisk = 0, hashtag  = 0;
+  int count_detect1 = 0;
+  int count_detect2 = 0;
+  int count_detect3 = 0;
+  int count_detect4 = 0;
+  // int allkeypad = 0, asterisk = 0, hashtag  = 0;
   
   int time_hour_box1 = 0, time_minute_box1 = 0;
   int time_hour_box2 = 0, time_minute_box2 = 0;
@@ -93,39 +95,64 @@
   byte savehour_c;  byte  saveminute_c;
   byte savehour_d;  byte  saveminute_d; 
   
-  // Box A
+  //  Box A  //
   byte  readhour_a    = EEPROM.read(10);
   byte  readminute_a  = EEPROM.read(11);
   
-  // Box B
+  //  Box B  //
   byte  readhour_b    = EEPROM.read(12);
   byte  readminute_b  = EEPROM.read(13);
   
-  // Box C
+  //  Box C  //
   byte  readhour_c    = EEPROM.read(14);
   byte  readminute_c  = EEPROM.read(15);
   
-  // Box D
+  //  Box D  //
   byte  readhour_d    = EEPROM.read(16);
   byte  readminute_d  = EEPROM.read(17);
   
   /***************************  LDR Variable ************************************/
-  #define LDR_BOX_A A8
-  #define LDR_BOX_B A9
-  #define LDR_BOX_C A10
-  #define LDR_BOX_D A11
+  //  Rang from sensor detect
+  #define  DETECT  880
   
-  int read_ldr_A = 0;
-  int read_ldr_B = 0;
-  int read_ldr_C = 0;
-  int read_ldr_D = 0;
+  //  Define Pin connect  //
+  #define  SENSOR_BOX_A1  A8
+  #define  SENSOR_BOX_A2  A9
   
+  #define  SENSOR_BOX_B1  A10
+  #define  SENSOR_BOX_B2  A11
   
-  int sum_box_a = 0;
-  int sum_box_b = 0;
-  int sum_box_c = 0;
-  int sum_box_d = 0;
+  #define  SENSOR_BOX_C1  A12
+  #define  SENSOR_BOX_C2  A13
   
+  #define  SENSOR_BOX_D1  A14
+  #define  SENSOR_BOX_D2  A15
+  
+  //  init variable from sensor  //
+  int read_sensor_A1  =  0;
+  int read_sensor_A2  =  0;
+  
+  int read_sensor_B1  =  0;
+  int read_sensor_B2  =  0;
+  
+  int read_sensor_C1  =  0;
+  int read_sensor_C2  =  0;
+  
+  int read_sensor_D1  =  0;
+  int read_sensor_D2  =  0;
+  
+  //  sum book in box  
+  int sum_boxa_tens = 0;
+  int sum_boxa_units = 0;
+  
+  int sum_boxb_tens = 0;
+  int sum_boxb_units = 0;
+  
+  int sum_boxc_tens = 0;
+  int sum_boxc_units = 0;
+  
+  int sum_boxd_tens = 0;
+  int sum_boxd_units = 0;
   /**************************** End Variable ************************************/
   
   void setup()
@@ -136,22 +163,28 @@
     
     pinMode(lockedled, OUTPUT);
     pinMode(unlockedled, OUTPUT);
-        
-    pinMode(LDR_BOX_A, INPUT);
-    pinMode(LDR_BOX_B, INPUT);
-    pinMode(LDR_BOX_C, INPUT);
-    pinMode(LDR_BOX_D, INPUT);
+    
+    //  config pin IR sensot input  //    
+    pinMode(SENSOR_BOX_A1, INPUT);
+    pinMode(SENSOR_BOX_A2, INPUT);
+    pinMode(SENSOR_BOX_B1, INPUT);
+    pinMode(SENSOR_BOX_B2, INPUT);
+    pinMode(SENSOR_BOX_C1, INPUT);
+    pinMode(SENSOR_BOX_C2, INPUT);
+    pinMode(SENSOR_BOX_D1, INPUT);
+    pinMode(SENSOR_BOX_D2, INPUT);
   
     digitalWrite(lockedled, 1);
     digitalWrite(unlockedled, 0);
     
+    //  init max7219_7-segment  //
     segment.shutdown(0,false);
     segment.setIntensity(0,  3);     //  ความสว่าง  8 ปานกลาง
     segment.clearDisplay(0);         // เคลียหน้าจอ 7 segment
 
-    //setDateTime();  // when you want to adjust time 
+    //setDateTime();  // when you want to adjust time now
     
-    // print eeprom to serial
+    // print eeprom to serial  //
       Serial.print(readhour_a);
       Serial.print("\t");
       Serial.print(readminute_a);
@@ -182,11 +215,18 @@
     
 //  show 7 segment
    //showdisplay(0,  7,  5);    //  0  คือไอซีตัวที่ 1   /  7 คือหลักที่ 7  /  5 คือตัวเลขที่จะให้แสดง 0-15  
+   
 // Enter to mode working
-    input_password();
+    //input_password();
 
 // Check book when student sent home work
     bookcount(); 
+    
+    read_irsensor();
+    Serial.print("IRsensor  =  ");
+    Serial.print(read_sensor_A1);
+    Serial.print("    ");
+    Serial.println(read_sensor_A2);
   }
    
   void printDateTime()
