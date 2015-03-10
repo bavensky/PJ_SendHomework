@@ -15,10 +15,10 @@
   {
     /*******  Config to time ******************************/
     byte set_second =      0;    // Set Second 0-59
-    byte set_minute =      0;   // Set Minute 0-59
-    byte set_hour   =      15;    // Set Hour   0-23
-    byte set_weekDay =     5;    // Set Day of Week  1-7
-    byte set_monthDay =    29;   // Set Day of Month 1-31
+    byte set_minute =      18;   // Set Minute 0-59
+    byte set_hour   =      23;    // Set Hour   0-23
+    byte set_weekDay =     7;    // Set Day of Week  1-7
+    byte set_monthDay =    31;   // Set Day of Month 1-31
     byte set_month =       1;   // Set Month  1-12
     byte set_year  =       15;   // Set Year   0-99      
     

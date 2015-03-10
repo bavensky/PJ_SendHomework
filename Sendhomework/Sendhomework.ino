@@ -113,7 +113,7 @@
   
   /***************************  LDR Variable ************************************/
   //  Rang from sensor detect
-  #define  DETECT  880
+  #define  DETECT  700
   
   //  Define Pin connect  //
   #define  SENSOR_BOX_A1  A8
@@ -221,12 +221,6 @@
 
 // Check book when student sent home work
     bookcount(); 
-    
-    read_irsensor();
-    Serial.print("IRsensor  =  ");
-    Serial.print(read_sensor_A1);
-    Serial.print("    ");
-    Serial.println(read_sensor_A2);
   }
    
   void printDateTime()

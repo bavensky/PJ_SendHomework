@@ -23,7 +23,7 @@ void bookcount()  {
   read_irsensor();
   
 /*****************  Read book boxA  ****************************/
-  if(read_sensor_A1 < DETECT  &&  read_sensor_A2  >  DETECT)  {
+  if(read_sensor_A1 > DETECT  &&  read_sensor_A2  <  DETECT)  {
     count_detect1 = 1;
   }
   while(count_detect1 == 1)  {
@@ -32,13 +32,14 @@ void bookcount()  {
     lcd.setCursor(0, 1);
     lcd.print("Send_homework..!");
     printDateTime();
-  
+
     read_irsensor();
-    if(read_sensor_A1 > DETECT)  {
+    if(read_sensor_A1 < DETECT)  {
+      delay(200);
       count_detect1 = 0;
     }
-    
-    if(read_sensor_A1 < DETECT && read_sensor_A2 < DETECT)  {
+    if(read_sensor_A1 > DETECT && read_sensor_A2 > DETECT)  {
+      delay(200);
       count_detect1 = 2;
     }
   }
@@ -48,16 +49,18 @@ void bookcount()  {
     lcd.setCursor(0, 1);
     lcd.print("Send_homework..!");
     printDateTime();
-      
+     
     read_irsensor();
-    if(read_sensor_A2 > DETECT)  {
+    if(read_sensor_A2 < DETECT)  {
+      delay(200);
       count_detect1 = 0;
     }
-    
-    if(read_sensor_A1 > DETECT && read_sensor_A2 < DETECT)  {
+    if(read_sensor_A1 < DETECT && read_sensor_A2 > DETECT)  {
+      delay(200);
       count_detect1 = 3;
-      }
     }
+  }
+    
   while(count_detect1 == 3)  {
     lcd.home();
     lcd.print(" Project_RMUTL  ");
@@ -66,10 +69,8 @@ void bookcount()  {
     printDateTime();
     
     read_irsensor();
-//    if(read_sensor_A2 > DETECT)  {
-//      count_detect1 = 0;
-//    }
-    if(read_sensor_A1 > DETECT && read_sensor_A2 > DETECT)  {
+    if(read_sensor_A1 < DETECT  &&  read_sensor_A2 < DETECT)  {
+      delay(200);
       sum_boxa_units += 1;
       if(sum_boxa_units >= 10){
         sum_boxa_tens += 1;
@@ -80,7 +81,7 @@ void bookcount()  {
   }
   
 /*****************  Read book boxB  ****************************/
-  if(read_sensor_B1 < DETECT  &&  read_sensor_B2  >  DETECT)  {
+  if(read_sensor_B1 > DETECT  &&  read_sensor_B2  <  DETECT)  {
     count_detect2 = 1;
   }
   while(count_detect2 == 1)  {
@@ -91,11 +92,13 @@ void bookcount()  {
     printDateTime();
   
     read_irsensor();
-    if(read_sensor_B1 > DETECT)  {
+    if(read_sensor_B1 < DETECT)  {
+      delay(200);
       count_detect2 = 0;
     }
     
-    if(read_sensor_B1 < DETECT && read_sensor_B2 < DETECT)  {
+    if(read_sensor_B1 > DETECT && read_sensor_B2 > DETECT)  {
+      delay(200);
       count_detect2 = 2;
     }
   }
@@ -107,11 +110,13 @@ void bookcount()  {
     printDateTime();
       
     read_irsensor();
-    if(read_sensor_B2 > DETECT)  {
+    if(read_sensor_B2 < DETECT)  {
+      delay(200);
       count_detect2 = 0;
     }
     
-    if(read_sensor_B1 > DETECT && read_sensor_B2 < DETECT)  {
+    if(read_sensor_B1 < DETECT && read_sensor_B2 > DETECT)  {
+      delay(200);
       count_detect2 = 3;
       }
     }
@@ -123,7 +128,8 @@ void bookcount()  {
     printDateTime();
     
     read_irsensor();
-    if(read_sensor_B1 > DETECT && read_sensor_B2 > DETECT)  {
+    if(read_sensor_B1 < DETECT && read_sensor_B2 < DETECT)  {
+      delay(200);
       sum_boxb_units += 1;
       if(sum_boxb_units >= 10){
         sum_boxb_tens += 1;
@@ -132,8 +138,8 @@ void bookcount()  {
       count_detect2 = 0;
     }    
   }
-/*****************  Read book boxC  ****************************/
-  if(read_sensor_C1 < DETECT  &&  read_sensor_C2  >  DETECT)  {
+///*****************  Read book boxC  ****************************/
+  if(read_sensor_C1 > DETECT  &&  read_sensor_C2  <  DETECT)  {
     count_detect3 = 1;
   }
   while(count_detect3 == 1)  {
@@ -144,11 +150,13 @@ void bookcount()  {
     printDateTime();
   
     read_irsensor();
-    if(read_sensor_C1 > DETECT)  {
+    if(read_sensor_C1 < DETECT)  {
+      delay(200);
       count_detect3 = 0;
     }
     
-    if(read_sensor_C1 < DETECT && read_sensor_C2 < DETECT)  {
+    if(read_sensor_C1 > DETECT && read_sensor_C2 > DETECT)  {
+      delay(200);
       count_detect3 = 2;
     }
   }
@@ -160,11 +168,13 @@ void bookcount()  {
     printDateTime();
       
     read_irsensor();
-    if(read_sensor_C2 > DETECT)  {
+    if(read_sensor_C2 < DETECT)  {
+      delay(200);
       count_detect3 = 0;
     }
     
-    if(read_sensor_C1 > DETECT && read_sensor_C2 < DETECT)  {
+    if(read_sensor_C1 < DETECT && read_sensor_C2 > DETECT)  {
+      delay(200);
       count_detect3 = 3;
       }
     }
@@ -176,7 +186,8 @@ void bookcount()  {
     printDateTime();
     
     read_irsensor();
-    if(read_sensor_C1 > DETECT && read_sensor_C2 > DETECT)  {
+    if(read_sensor_C1 < DETECT && read_sensor_C2 < DETECT)  {
+      delay(200);
       sum_boxc_units += 1;
       if(sum_boxc_units >= 10){
         sum_boxc_tens += 1;
@@ -185,11 +196,11 @@ void bookcount()  {
       count_detect3 = 0;
     }    
   }
-/*****************  Read book boxD  ****************************/
-  if(read_sensor_B1 < DETECT  &&  read_sensor_B2  >  DETECT)  {
-    count_detect2 = 1;
+///*****************  Read book boxD  ****************************/
+  if(read_sensor_D1 > DETECT  &&  read_sensor_D2  <  DETECT)  {
+    count_detect4 = 1;
   }
-  while(count_detect2 == 1)  {
+  while(count_detect4 == 1)  {
     lcd.home();
     lcd.print(" Project_RMUTL  ");
     lcd.setCursor(0, 1);
@@ -197,15 +208,16 @@ void bookcount()  {
     printDateTime();
   
     read_irsensor();
-    if(read_sensor_B1 > DETECT)  {
-      count_detect2 = 0;
+    if(read_sensor_D1 < DETECT)  {
+      delay(200);
+      count_detect4 = 0;
     }
     
-    if(read_sensor_B1 < DETECT && read_sensor_B2 < DETECT)  {
-      count_detect2 = 2;
+    if(read_sensor_D1 > DETECT && read_sensor_D2 > DETECT)  {
+      count_detect4 = 2;
     }
   }
-  while(count_detect2 == 2)  {
+  while(count_detect4 == 2)  {
     lcd.home();
     lcd.print(" Project_RMUTL  ");
     lcd.setCursor(0, 1);
@@ -213,15 +225,16 @@ void bookcount()  {
     printDateTime();
       
     read_irsensor();
-    if(read_sensor_B2 > DETECT)  {
-      count_detect2 = 0;
+    if(read_sensor_D2 < DETECT)  {
+      count_detect4 = 0;
     }
     
-    if(read_sensor_B1 > DETECT && read_sensor_B2 < DETECT)  {
-      count_detect2 = 3;
+    if(read_sensor_D1 < DETECT && read_sensor_D2 > DETECT)  {
+      delay(200);
+      count_detect4 = 3;
       }
     }
-  while(count_detect2 == 3)  {
+  while(count_detect4 == 3)  {
     lcd.home();
     lcd.print(" Project_RMUTL  ");
     lcd.setCursor(0, 1);
@@ -229,13 +242,14 @@ void bookcount()  {
     printDateTime();
     
     read_irsensor();
-    if(read_sensor_B1 > DETECT && read_sensor_B2 > DETECT)  {
+    if(read_sensor_D1 < DETECT && read_sensor_D2 < DETECT)  {
+      delay(200);
       sum_boxb_units += 1;
-      if(sum_boxb_units >= 10){
-        sum_boxb_units = 0;
-        sum_boxb_tens += 1;
+      if(sum_boxd_units >= 10){
+        sum_boxd_units = 0;
+        sum_boxd_tens += 1;
       }
-      count_detect2 = 0;
+      count_detect4 = 0;
     }    
   }
 /*****************  End Read book  ****************************/  
